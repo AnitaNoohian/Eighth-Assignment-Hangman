@@ -1,0 +1,7 @@
+AnchorPane {
+    -fx-background-image: url("first.jpeg");
+    -fx-background-size: cover;
+}
+#login {
+    -fx-text-fill: red;
+}
