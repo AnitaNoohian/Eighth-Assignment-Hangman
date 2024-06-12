@@ -11,7 +11,7 @@
             <Font name="Impact" size="25.0" />
          </font>
       </Text>
-      <Text fx:id="signup" layoutX="93.0" layoutY="169.0" onMouseClicked="#setSignupStage" onMouseEntered="#signupEnter" onMouseExited="#signupExit" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN UP">
+      <Text fx:id="signup" layoutX="93.0" layoutY="169.0" onMouseClicked="#signupClick" onMouseEntered="#signupEnter" onMouseExited="#signupExit" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN UP">
          <font>
             <Font name="Impact" size="25.0" />
          </font>

@@ -2,6 +2,23 @@ AnchorPane {
     -fx-background-image: url("first.jpeg");
     -fx-background-size: cover;
 }
-#login {
-    -fx-text-fill: red;
+.custom-alert {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+
+
+.custom-alert .content-label {
+    -fx-font-size: 5px;
+    -fx-text-fill: #111;
+}
+
+.custom-alert .button {
+    -fx-background-color: #EB5353;
+    -fx-text-fill: white;
+}
+
+.custom-alert .button:hover {
+    -fx-background-color: #FF6B6B;
 }
