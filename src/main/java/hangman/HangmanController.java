@@ -19,11 +19,17 @@ import java.io.IOException;
 
 public class HangmanController {
     private Stage stage;
-    @FXML
     private Stage signupStage;
     private Scene scene;
     private Scene signupScene;
-    private Parent root;
+    @FXML
+    private Text startGame;
+    @FXML
+    private Text gameInfo;
+    @FXML
+    private Text leaderBoard;
+    @FXML
+    private Text exit;
     @FXML
     private Text signup;
     @FXML
@@ -44,11 +50,25 @@ public class HangmanController {
     private Button logInBack;
     @FXML
     private Button signup2;
-    public void switchToMenu(ActionEvent event) {
+    @FXML
+    private Button logIn2;
 
+    public void switchToPlay(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("play-view.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void switchToMenu(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("menu-view.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root,500,650);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void switchToScene1(ActionEvent event) throws IOException {
+    public void switchToScene1(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("hangman-view.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -89,8 +109,24 @@ public class HangmanController {
         });
     }
     @FXML
+    public void exitClick(){
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                switchToScene1(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    @FXML
+    public void startGame(){
+        startGame.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+
+        });
+    }
+    @FXML
     public void logInBackClick(){
-        logInBack.setOnAction(event -> {
+        logInBack.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 switchToScene1(event);
             } catch (IOException e) {
@@ -122,6 +158,16 @@ public class HangmanController {
         });
     }
     @FXML
+    public void logInClick2(){
+        logIn2.setOnAction(event -> {
+            try {
+                switchToMenu(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    @FXML
     public void loginClick(){
         login.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
@@ -146,5 +192,37 @@ public class HangmanController {
     @FXML
     public void signupExit(){
         signup.setFill(Color.BLACK);
+    }
+    @FXML
+    public void exitEnter(){
+        exit.setFill(Color.YELLOW);
+    }
+    @FXML
+    public void exitExit(){
+        exit.setFill(Color.BLACK);
+    }
+    @FXML
+    public void gameInfoEnter(){
+        gameInfo.setFill(Color.YELLOW);
+    }
+    @FXML
+    public void gameInfoExit(){
+        gameInfo.setFill(Color.BLACK);
+    }
+    @FXML
+    public void leaderBoardEnter(){
+        leaderBoard.setFill(Color.YELLOW);
+    }
+    @FXML
+    public void leaderBoardExit(){
+        leaderBoard.setFill(Color.BLACK);
+    }
+    @FXML
+    public void startGameEnter(){
+        startGame.setFill(Color.YELLOW);
+    }
+    @FXML
+    public void startGameExit(){
+        startGame.setFill(Color.BLACK);
     }
 }

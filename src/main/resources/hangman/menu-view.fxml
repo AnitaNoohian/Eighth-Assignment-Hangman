@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hangman.HangmanController">
+   <children>
+      <Text fx:id="startGame" layoutX="200.0" layoutY="261.0" onMouseEntered="#startGameEnter" onMouseExited="#startGameExit" strokeType="OUTSIDE" strokeWidth="0.0" text="START GAME">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Text>
+      <Text fx:id="gameInfo" layoutX="211.0" layoutY="322.0" onMouseEntered="#gameInfoEnter" onMouseExited="#gameInfoExit" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME INFO">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Text>
+      <Text fx:id="leaderBoard" layoutX="190.0" layoutY="388.0" onMouseEntered="#leaderBoardEnter" onMouseExited="#leaderBoardExit" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Text>
+      <Text fx:id="exit" layoutX="248.0" layoutY="443.0" onMouseClicked="#exitClick" onMouseEntered="#exitEnter" onMouseExited="#exitExit" strokeType="OUTSIDE" strokeWidth="0.0" text="EXIT">
+         <font>
+            <Font name="Impact" size="30.0" />
+         </font>
+      </Text>
+      <Text layoutX="114.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HANGMAN">
+         <font>
+            <Font name="Impact" size="81.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
