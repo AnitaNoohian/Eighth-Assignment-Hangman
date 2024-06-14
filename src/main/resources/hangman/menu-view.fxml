@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="650.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hangman.HangmanController">
    <children>
-      <Text fx:id="startGame" layoutX="200.0" layoutY="261.0" onMouseEntered="#startGameEnter" onMouseExited="#startGameExit" strokeType="OUTSIDE" strokeWidth="0.0" text="START GAME">
+      <Text fx:id="startGame" layoutX="200.0" layoutY="261.0" onMouseEntered="#startGameEnter" onMouseExited="#startGameExit" onMousePressed="#startGameClick" strokeType="OUTSIDE" strokeWidth="0.0" text="START GAME">
          <font>
             <Font name="Impact" size="30.0" />
          </font>
