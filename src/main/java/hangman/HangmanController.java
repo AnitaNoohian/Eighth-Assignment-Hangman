@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,10 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+import java.time.LocalTime;
 import java.io.IOException;
-import java.util.Random;
+import java.util.*;
 
 public class HangmanController {
     @FXML
@@ -50,6 +53,8 @@ public class HangmanController {
     int mistake = 0;
     int correct = 0;
     int test = 0;
+    long startTime = 0;
+    long endTime = 0;
     private static final String[] WORDS = {"programming", "java", "hangman", "keyboard", "code"};
     private static String secretWord;
     private Stage stage;
@@ -90,6 +95,10 @@ public class HangmanController {
     private Button logIn2;
     @FXML
     private Button gameBack;
+    private static String loginUsernameIn;
+
+    private static String loginPassWordIn;
+
     private String chooseRandomWord() {
         Random random = new Random();
         return WORDS[random.nextInt(WORDS.length)].toLowerCase();
@@ -100,6 +109,7 @@ public class HangmanController {
         String selectletter = clickedButton.getText();
         clickedButton.setVisible(false);
         if (test == 0){
+            startTime = Calendar.getInstance().getTime().getTime();
             showUnderLine();
         }
         test = 1;
@@ -118,14 +128,23 @@ public class HangmanController {
             mistake = mistake + 1;
         }
         if (mistake == 11){
+            UUID gameIdwin = UUID.randomUUID();
+            endTime = Calendar.getInstance().getTime().getTime();
+            long time = (endTime - startTime)/1000;
+            System.out.println(time);
+            DatabaseManager.gameInfo( gameIdwin.toString(),loginUsernameIn , secretWord , mistake , (int) time, false );
             gameOver();
         }
         if (correct == secretWord.length()){
+            UUID gameIdLose = UUID.randomUUID();
+            endTime = Calendar.getInstance().getTime().getTime();
+            long time = (endTime - startTime)/1000;
+            DatabaseManager.gameInfo( gameIdLose.toString() ,loginUsernameIn , secretWord , mistake , (int) time, true );
             winTheGame();
         }
         showHangMan();
     }
-
+    @FXML
     public void showUnderLine(){
         secretWord = chooseRandomWord();
         for (int i = 0; i < secretWord.length(); i++) {
@@ -202,7 +221,15 @@ public class HangmanController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
         //showUnderLine();
+    }
+    public void switchToInfo(MouseEvent event) throws IOException, SQLException {
+        TableView tableView = DatabaseManager.userGameInfo(loginUsernameIn);
+        Scene scene = new Scene(new Group(tableView));
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menu-view.fxml"));
@@ -273,6 +300,18 @@ public class HangmanController {
         });
     }
     @FXML
+    public void gameInfoClick(){
+        gameInfo.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                switchToInfo(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    @FXML
     public void logInBackClick(){
         logInBack.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
@@ -310,6 +349,15 @@ public class HangmanController {
             else {
                 usernameIn = username.getText();
                 passwordIn = password.getText();
+                if (DatabaseManager.validUserName(usernameIn)) {
+                    DatabaseManager.dataSignUp(usernameIn,passwordIn);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Input error");
+                    alert.setContentText("The USERNAME is already used!");
+                    alert.showAndWait();
+                }
                 Stage stage1 = (Stage) signup2.getScene().getWindow();
                 stage1.hide();
             }
@@ -319,7 +367,37 @@ public class HangmanController {
     public void logInClick2(){
         logIn2.setOnAction(event -> {
             try {
-                switchToMenu(event);
+
+                if (logInUsername.getText().equals("") || logInPassword.getText().equals("")){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Input error");
+                    alert.setContentText("The text field cannot be empty");
+                    alert.showAndWait();
+                }
+                else {
+                    loginUsernameIn = logInUsername.getText();
+                    loginPassWordIn = logInPassword.getText();
+                    if (DatabaseManager.validUserName(loginUsernameIn)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Input error");
+                        alert.setContentText("The USERNAME doesn't exist!");
+                        alert.showAndWait();
+                    } else {
+                        if (DatabaseManager.validPassword(loginUsernameIn,loginPassWordIn)) {
+                            Stage stage1 = (Stage) logIn2.getScene().getWindow();
+                            stage1.hide();
+                            switchToMenu(event);
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("Input error");
+                            alert.setContentText("The password is wrong!");
+                            alert.showAndWait();
+                        }
+                    }
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

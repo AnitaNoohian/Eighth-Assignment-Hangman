@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class HangmanApp extends Application {
     private Stage stage;
@@ -34,8 +35,10 @@ public class HangmanApp extends Application {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        DatabaseManager.connect();
         launch();
+
     }
 
 }
