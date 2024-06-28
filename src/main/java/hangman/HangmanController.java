@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -59,10 +60,10 @@ public class HangmanController {
     private static String secretWord;
     private Stage stage;
     private Stage signupStage;
-    private Stage gameOverStage;
+    private Stage infoStage;
     private Scene scene;
     private Scene signupScene;
-    private Scene gameOverScene;
+    private Scene infoScene;
     @FXML
     private Text startGame;
     @FXML
@@ -221,15 +222,16 @@ public class HangmanController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
-        //showUnderLine();
     }
     public void switchToInfo(MouseEvent event) throws IOException, SQLException {
         TableView tableView = DatabaseManager.userGameInfo(loginUsernameIn);
-        Scene scene = new Scene(new Group(tableView));
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
+        VBox vbox = new VBox(tableView);
+        infoScene = new Scene(vbox);
+        infoStage = new Stage();
+        infoStage.initModality(Modality.APPLICATION_MODAL);
+        infoStage.setScene(infoScene);
+        infoStage.show();
+        tableView.visibleProperty();
     }
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menu-view.fxml"));

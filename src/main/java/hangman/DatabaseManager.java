@@ -107,28 +107,33 @@ public class DatabaseManager {
         String query = "SELECT * FROM gameinfo";
         Statement ps = connection2.createStatement();
         ResultSet rs = ps.executeQuery(query);
-        connection2.close();
         TableView tableView = new TableView();
         ResultSetMetaData metaData = rs.getMetaData();
         int columnCount = metaData.getColumnCount();
-        for (int i = 1; i < columnCount; i++) {
-            TableColumn<String, String> column = new TableColumn<>(metaData.getColumnName(i));
-            column.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().get(columnIndex)));
-            tableView.getColumns().add(column);
+        for (int i = 1; i <= columnCount; i++) {
+            if (i != 2) {
+                TableColumn column = new TableColumn<>(metaData.getColumnName(i));
+                tableView.getColumns().add(column);
+            }
         }
         ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
         while (rs.next()) {
             if (username.equals(rs.getObject(2))) {
                 ObservableList<Object> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= columnCount; i++) {
-                    if (i != 2) {
-                        row.add(rs.getObject(i));
+                    if (i == 6) {
+                        row.add((boolean) rs.getObject(i));
+                    } else if (i > 3) {
+                        row.add((int) rs.getObject(i));
+                    } else if (i != 2) {
+                        row.add(rs.getObject(i).toString());
                     }
                 }
                 data.add(row);
             }
         }
         tableView.setItems(data);
+        connection2.close();
         return tableView;
     }
 }
